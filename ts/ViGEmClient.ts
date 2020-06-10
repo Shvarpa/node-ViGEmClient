@@ -5,8 +5,8 @@ import { X360Controller } from "./X360Controller";
 import { DS4Controller } from "./DS4Controller";
 
 export class ViGEmClient {
-	constructor(private _handle = null, private connected = false) {}
-
+	private _handle;
+	private connected = false;
 	get handle() {
 		return this._handle;
 	}
