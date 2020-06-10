@@ -16,5 +16,5 @@
 	},
 	"lib": ["esnext"],
 	"include": ["**/*"],
-	"exclude": ["node_modules", "example"]
+	"exclude": ["node_modules", "example", "lib"]
 }

@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "Native bindings to the ViGem virtual gamepad driver",
   "main": "lib/index.js",
-  "module": "ts/index.ts",
+  "module": "./index.ts",
   "scripts": {
     "build": "tsc",
     "install": "node-gyp rebuild",
