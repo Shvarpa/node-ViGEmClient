@@ -2,9 +2,13 @@
   "name": "vigemclient",
   "version": "1.1.0",
   "description": "Native bindings to the ViGem virtual gamepad driver",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "ts/index.ts",
   "scripts": {
-    "install": "node-gyp rebuild"
+    "build": "tsc",
+    "install": "node-gyp rebuild",
+    "test-ds4": "ts-node ./example/feeder_ds4",
+    "test-x360": "ts-node ./example/feeder_x360"
   },
   "repository": {
     "type": "git",
@@ -34,5 +38,9 @@
   "cpu": [
     "x64",
     "ia32"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^14.0.12",
+    "typescript": "^3.9.5"
+  }
 }
