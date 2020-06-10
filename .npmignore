@@ -1,6 +1,6 @@
-ts/
-example/
-index.ts
+./ts/
+./example/
+./index.ts
 
 # Logs
 logs
