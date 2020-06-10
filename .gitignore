@@ -1,4 +1,6 @@
-/lib/
+/ts/
+/example/
+/index.ts
 
 # Logs
 logs
