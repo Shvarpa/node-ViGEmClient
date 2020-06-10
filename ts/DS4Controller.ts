@@ -6,7 +6,7 @@ import { InputAxis } from "./InputAxis";
 import { DS4ControllerReport } from "./DS4ControllerReport";
 import { DS4Notification, DS4Lightbar } from "./Types/DS4Notification";
 import { Controller } from "./Types/Controller";
-import { ConnectOpts } from "../lib/ts/ViGEmTarget";
+import { ConnectOpts } from "../ts/ViGEmTarget";
 
 export class DS4Controller extends ViGEmTarget implements Controller {
 	private notification = new DS4Notification();
@@ -39,7 +39,7 @@ export class DS4Controller extends ViGEmTarget implements Controller {
 		let err = super.connect(opts);
 
 		if (!err) {
-			vigemclient.vigem_target_ds4_register_notification(this.client._handle, this.target, (data) => {
+			vigemclient.vigem_target_ds4_register_notification(this.client.handle, this.target, (data) => {
 				if (data.LargeMotor != this.notification.LargeMotor) {
 					this.emit("large motor", data.LargeMotor);
 				}
@@ -67,7 +67,7 @@ export class DS4Controller extends ViGEmTarget implements Controller {
 
 	update() {
 		this.checkConnection();
-		let client = this.client._handle;
+		let client = this.client.handle;
 		let error = handlePossibleError(vigemclient.vigem_target_ds4_update(client, this.target, this.report.freeze()));
 		return error;
 	}

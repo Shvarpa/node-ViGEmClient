@@ -31,7 +31,7 @@ export class X360Controller extends ViGEmTarget implements Controller {
 
 	get userIndex() {
 		this.checkConnection();
-		return vigemclient.vigem_target_x360_get_user_index(this.client._handle, this.target);
+		return vigemclient.vigem_target_x360_get_user_index(this.client.handle, this.target);
 	}
 
 	protected alloc() {
@@ -42,7 +42,7 @@ export class X360Controller extends ViGEmTarget implements Controller {
 		let err = super.connect(opts);
 
 		if (!err) {
-			vigemclient.vigem_target_x360_register_notification(this.client._handle, this.target, (data) => {
+			vigemclient.vigem_target_x360_register_notification(this.client.handle, this.target, (data) => {
 				if (data.LargeMotor != this.notification.LargeMotor) {
 					this.emit("large motor", data.LargeMotor);
 				}
@@ -69,6 +69,6 @@ export class X360Controller extends ViGEmTarget implements Controller {
 
 	update() {
 		this.checkConnection();
-		return handlePossibleError(vigemclient.vigem_target_x360_update(this.client._handle, this.target, this.report.freeze()));
+		return handlePossibleError(vigemclient.vigem_target_x360_update(this.client.handle, this.target, this.report.freeze()));
 	}
 }
