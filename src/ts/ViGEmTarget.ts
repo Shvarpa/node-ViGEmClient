@@ -1,14 +1,10 @@
+import { vigemclient } from "./Client";
 import { EventEmitter } from "events";
 import { VIGEM_ERRORS, handlePossibleError } from "./Common";
 import { ViGEmClient } from "./ViGEmClient";
-const vigemclient = require("../build/Release/vigemclient");
+import { ConnectOpts } from "../Types/Controller";
 
 const NotConnectedError = () => new Error("Target is not connected");
-
-export interface ConnectOpts {
-	vendorID?: string;
-	productID?: string;
-}
 
 export class ViGEmTarget extends EventEmitter {
 	private _connected: boolean = false;
@@ -32,7 +28,7 @@ export class ViGEmTarget extends EventEmitter {
 		return vigemclient.vigem_target_get_pid(this.target);
 	}
 
-	get index() {
+	get index(): number {
 		this.checkConnection();
 		return vigemclient.vigem_target_get_index(this.target);
 	}
@@ -42,7 +38,7 @@ export class ViGEmTarget extends EventEmitter {
 		return vigemclient.vigem_target_get_type(this.target);
 	}
 
-	get attached() {
+	get attached(): boolean {
 		if (!this.connected) return false;
 		return vigemclient.vigem_target_is_attached(this.target);
 	}

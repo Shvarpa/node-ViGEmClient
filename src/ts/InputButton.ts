@@ -1,4 +1,4 @@
-import { Controller } from "./Types/Controller";
+import { Controller } from "../Types/Controller";
 
 export class InputButton {
 	constructor(private _parent: Controller,private _name: string) {}

@@ -1,4 +1,4 @@
-import { Nibble, Nine } from "./Types/Numbers";
+import { Nibble, Nine } from "../Types/Numbers";
 
 export type X360Dpad = "DPAD" | "DPAD_UP" | "DPAD_DOWN" | "DPAD_LEFT" | "DPAD_RIGHT";
 export type X360Buttons = X360Dpad | "START" | "BACK" | "LEFT_THUMB" | "RIGHT_THUMB" | "LEFT_SHOULDER" | "RIGHT_SHOULDER" | "GUIDE" | "A" | "B" | "X" | "Y";

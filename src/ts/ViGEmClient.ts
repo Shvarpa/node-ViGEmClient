@@ -1,6 +1,5 @@
-const vigemclient = require("../build/Release/vigemclient");
+import { vigemclient } from "./Client";
 import { VIGEM_ERRORS, handlePossibleError } from "./Common";
-
 import { X360Controller } from "./X360Controller";
 import { DS4Controller } from "./DS4Controller";
 

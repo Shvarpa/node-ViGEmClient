@@ -1,11 +1,12 @@
-const vigemclient = require("../build/Release/vigemclient");
-import { ViGEmTarget, ConnectOpts } from "./ViGEmTarget";
+import { vigemclient } from "./Client";
+import { ViGEmTarget } from "./ViGEmTarget";
 import { XUSB_BUTTON, VIGEM_ERRORS, handlePossibleError } from "./Common";
 import { InputButton } from "./InputButton";
 import { InputAxis } from "./InputAxis";
 import { X360ControllerReport } from "./X360ControllerReport";
-import { X360Notification } from "./Types/X360Notification";
-import { Controller } from "./Types/Controller";
+import { X360Notification } from "../Types/X360Notification";
+import { Controller, ConnectOpts } from "../Types/Controller";
+import { Four } from "../Types/Numbers";
 
 export class X360Controller extends ViGEmTarget implements Controller {
 	report = new X360ControllerReport();
@@ -29,7 +30,7 @@ export class X360Controller extends ViGEmTarget implements Controller {
 		super(client);
 	}
 
-	get userIndex() {
+	get userIndex(): Four {
 		this.checkConnection();
 		return vigemclient.vigem_target_x360_get_user_index(this.client.handle, this.target);
 	}

@@ -1,5 +1,5 @@
-import { ViGEmClient } from "../ts/index";
-import { isX360Dpad } from "../ts/Common";
+import { ViGEmClient } from "../src/index";
+import { isX360Dpad } from "../src/ts/Common";
 
 let client = new ViGEmClient();
 
@@ -40,15 +40,11 @@ if (!client.connect()) {
 		controller.button.DPAD.setValue([-Math.sin(t), Math.cos(t)]);
 
 		controller.axis.LT.setValue(Math.sin(t));
-		console.log(controller.button.DPAD.value);
-
+		
 		if (buttons[btn] != "GUIDE") {
 			// otherwise Win 10 spams the GameBar
 			controller.button[buttons[btn]].setValue(!controller.button[buttons[btn]].value); // invert button value
 		}
-
-		console.log(controller.button.DPAD.value);
-		
 
 		controller.update(); // update manually for better performance
 

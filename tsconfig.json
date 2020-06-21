@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		// "incremental": true,
 		"target": "es2019",
-		"module": "System",
+		"module": "commonjs",
 		"allowJs": true,
 		"checkJs": false,
 		"jsx": "react",
@@ -12,9 +12,10 @@
 		"alwaysStrict": false,
 		"moduleResolution": "node",
 		"esModuleInterop": true,
-		"declaration": true
+		"declaration": true,
+		"rootDir": "./src"
 	},
 	"lib": ["esnext"],
-	"include": ["**/*"],
+	"include": ["src/**/*"],
 	"exclude": ["node_modules", "example", "lib"]
 }

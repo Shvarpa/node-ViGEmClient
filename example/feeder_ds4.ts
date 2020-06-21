@@ -1,5 +1,5 @@
-import { ViGEmClient } from "../ts/index";
-import { isDS4Dpad } from "../ts/Common";
+const { ViGEmClient } = require("../lib/index");
+import { isDS4Dpad } from "../src/ts/Common";
 
 let client = new ViGEmClient();
 

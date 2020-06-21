@@ -1,12 +1,11 @@
-const vigemclient = require("../build/Release/vigemclient");
+import { vigemclient } from "./Client";
 import { ViGEmTarget } from "./ViGEmTarget";
 import { DS4_BUTTONS, DS4_SPECIAL_BUTTONS, VIGEM_ERRORS, handlePossibleError } from "./common";
 import { InputButton } from "./InputButton";
 import { InputAxis } from "./InputAxis";
 import { DS4ControllerReport } from "./DS4ControllerReport";
-import { DS4Notification, DS4Lightbar } from "./Types/DS4Notification";
-import { Controller } from "./Types/Controller";
-import { ConnectOpts } from "../ts/ViGEmTarget";
+import { DS4Notification, DS4Lightbar } from "../Types/DS4Notification";
+import { Controller, ConnectOpts } from "../Types/Controller";
 
 export class DS4Controller extends ViGEmTarget implements Controller {
 	private notification = new DS4Notification();

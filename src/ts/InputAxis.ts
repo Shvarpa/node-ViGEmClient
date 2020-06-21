@@ -1,4 +1,4 @@
-import { Controller } from "./Types/Controller";
+import { Controller } from "../Types/Controller";
 
 export interface InputSpec {
 	maxIn: number;
