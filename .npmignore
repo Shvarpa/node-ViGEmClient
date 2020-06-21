@@ -1,7 +1,7 @@
-/ts/
+/src/
 /example/
-/index.ts
-
+/build/
+tsconfig.json
 # Logs
 logs
 *.log
@@ -65,5 +65,3 @@ typings/
 .next
 
 .vscode
-
-build/
