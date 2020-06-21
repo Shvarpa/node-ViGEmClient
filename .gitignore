@@ -1,5 +1,7 @@
-/lib/
+/src/
+/example/
 /build/
+tsconfig.json
 # Logs
 logs
 *.log
