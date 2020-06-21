@@ -1,6 +1,6 @@
 import { vigemclient } from "./Client";
 import { ViGEmTarget } from "./ViGEmTarget";
-import { DS4_BUTTONS, DS4_SPECIAL_BUTTONS, VIGEM_ERRORS, handlePossibleError } from "./common";
+import { DS4_BUTTONS, DS4_SPECIAL_BUTTONS, VIGEM_ERRORS, handlePossibleError } from "./Common";
 import { InputButton } from "./InputButton";
 import { InputAxis } from "./InputAxis";
 import { DS4ControllerReport } from "./DS4ControllerReport";
