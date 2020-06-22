@@ -4,12 +4,12 @@ import { DS4_BUTTONS, DS4_SPECIAL_BUTTONS, VIGEM_ERRORS, handlePossibleError } f
 import { InputButton } from "./InputButton";
 import { InputAxis } from "./InputAxis";
 import { DS4ControllerReport } from "./DS4ControllerReport";
-import { DS4Notification, DS4Lightbar } from "../Types/DS4Notification";
-import { Controller, ConnectOpts } from "../Types/Controller";
+import { DS4Notification, DS4Lightbar } from "../Common/DS4Notification";
+import { Controller, ConnectOpts } from "../Common/Controller";
 
 export class DS4Controller extends ViGEmTarget implements Controller {
-	private notification = new DS4Notification();
 	report = new DS4ControllerReport();
+	notification = new DS4Notification();
 	button = Object.freeze(
 		Object.fromEntries(
 			Object.keys(DS4_BUTTONS)
@@ -36,39 +36,54 @@ export class DS4Controller extends ViGEmTarget implements Controller {
 
 	connect(opts: ConnectOpts = {}): Error | undefined {
 		let err = super.connect(opts);
-
-		if (!err) {
-			vigemclient.vigem_target_ds4_register_notification(this.client.handle, this.target, (data) => {
-				if (data.LargeMotor != this.notification.LargeMotor) {
-					this.emit("large motor", data.LargeMotor);
-				}
-
-				if (data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("small motor", data.SmallMotor);
-				}
-
-				if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
-				}
-
-				if (!colorsEqual(data.LightbarColor, this.notification.LightbarColor)) {
-					this.emit("color change", data.LightbarColor);
-				}
-
-				this.notification = data;
-
-				this.emit("notification", data);
-			});
-		}
-
 		return err;
 	}
 
+	// private _registered = false;
+	// register() {
+	// 	if (this.connected && !this._registered) {
+	// 		vigemclient.vigem_target_ds4_register_notification(this.client.handle, this.target, (data) => {
+	// 			if (data.LargeMotor != this.notification.LargeMotor) {
+	// 				this.emit("large motor", data.LargeMotor);
+	// 			}
+
+	// 			if (data.SmallMotor != this.notification.SmallMotor) {
+	// 				this.emit("small motor", data.SmallMotor);
+	// 			}
+
+	// 			if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
+	// 				this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
+	// 			}
+
+	// 			if (!colorsEqual(data.LightbarColor, this.notification.LightbarColor)) {
+	// 				this.emit("color change", data.LightbarColor);
+	// 			}
+
+	// 			this.notification.set(data);
+	// 			this.emit("notification", data);
+	// 		});
+	// 		this._registered = true;
+	// 	}
+	// }
+
+	// async unregister() {
+	// 	if (this.connected && this._registered) {
+	// 		vigemclient.vigem_target_ds4_unregister_notification(this.target);
+	// 		this._registered = false;
+	// 		return await new Promise((res,rej)=>{
+	// 			setTimeout(()=>{res()},200);
+	// 		})
+	// 	}
+	// }
+
+	// disconnect(): Error | undefined {
+	// 	this.unregister();
+	// 	return super.disconnect();
+	// }
+
 	update() {
 		this.checkConnection();
-		let client = this.client.handle;
-		let error = handlePossibleError(vigemclient.vigem_target_ds4_update(client, this.target, this.report.freeze()));
-		return error;
+		return handlePossibleError(vigemclient.vigem_target_ds4_update(this.client.handle, this.target, this.report.freeze()));
 	}
 }
 

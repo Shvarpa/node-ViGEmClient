@@ -2,7 +2,7 @@ import { vigemclient } from "./Client";
 import { EventEmitter } from "events";
 import { VIGEM_ERRORS, handlePossibleError } from "./Common";
 import { ViGEmClient } from "./ViGEmClient";
-import { ConnectOpts } from "../Types/Controller";
+import { ConnectOpts } from "../Common/Controller";
 
 const NotConnectedError = () => new Error("Target is not connected");
 
@@ -61,7 +61,7 @@ export class ViGEmTarget extends EventEmitter {
 
 		let error = handlePossibleError(vigemclient.vigem_target_add(client, target));
 
-		if (!error) {
+		if (!error) {			
 			this._connected = true;
 			this.target = target;
 		} else {

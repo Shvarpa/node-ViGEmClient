@@ -1,6 +1,6 @@
 import { XUSB_BUTTON, X360Buttons, X360Axis, set, ispressed, Axis, axisToDpad, DPAD_VALUE } from "./Common";
-import { Report } from "../Types/Report";
-import { Nibble } from "../Types/Numbers";
+import { Report } from "../Common/Report";
+import { Nibble } from "../Common/Numbers";
 
 export class X360ControllerReport implements Report {
 	wButtons: number = 0;

@@ -4,12 +4,13 @@ import { XUSB_BUTTON, VIGEM_ERRORS, handlePossibleError } from "./Common";
 import { InputButton } from "./InputButton";
 import { InputAxis } from "./InputAxis";
 import { X360ControllerReport } from "./X360ControllerReport";
-import { X360Notification } from "../Types/X360Notification";
-import { Controller, ConnectOpts } from "../Types/Controller";
-import { Four } from "../Types/Numbers";
+import { X360Notification } from "../Common/X360Notification";
+import { Controller, ConnectOpts } from "../Common/Controller";
+import { Four } from "../Common/Numbers";
 
 export class X360Controller extends ViGEmTarget implements Controller {
 	report = new X360ControllerReport();
+	notification = new X360Notification();
 	axis = Object.freeze({
 		LX: new InputAxis(this, "sThumbLX", { minIn: -1, maxIn: 1, minOut: -32768, maxOut: 32767 }),
 		LY: new InputAxis(this, "sThumbLY", { minIn: -1, maxIn: 1, minOut: -32768, maxOut: 32767 }),
@@ -25,14 +26,8 @@ export class X360Controller extends ViGEmTarget implements Controller {
 				.map((button) => [button, new InputButton(this, button)])
 		)
 	);
-	private notification = new X360Notification();
 	constructor(client) {
 		super(client);
-	}
-
-	get userIndex(): Four {
-		this.checkConnection();
-		return vigemclient.vigem_target_x360_get_user_index(this.client.handle, this.target);
 	}
 
 	protected alloc() {
@@ -41,31 +36,56 @@ export class X360Controller extends ViGEmTarget implements Controller {
 
 	connect(opts: ConnectOpts = {}) {
 		let err = super.connect(opts);
-
-		if (!err) {
-			vigemclient.vigem_target_x360_register_notification(this.client.handle, this.target, (data) => {
-				if (data.LargeMotor != this.notification.LargeMotor) {
-					this.emit("large motor", data.LargeMotor);
-				}
-
-				if (data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("small motor", data.SmallMotor);
-				}
-
-				if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
-				}
-
-				if (data.LedNumber != this.notification.LedNumber) {
-					this.emit("led change", data.LedNumber);
-				}
-
-				this.notification = data;
-				this.emit("notification", data);
-			});
-		}
-
 		return err;
+	}
+
+	// private _registered = false;
+	// register() {
+	// 	if (this.connected && !this._registered) {
+	// 		vigemclient.vigem_target_x360_register_notification(this.client.handle, this.target, (data) => {
+	// 			if (data.LargeMotor != this.notification.LargeMotor) {
+	// 				this.emit("large motor", data.LargeMotor);
+	// 			}
+
+	// 			if (data.SmallMotor != this.notification.SmallMotor) {
+	// 				this.emit("small motor", data.SmallMotor);
+	// 			}
+
+	// 			if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
+	// 				this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
+	// 			}
+
+	// 			if (data.LedNumber != this.notification.LedNumber) {
+	// 				this.emit("led change", data.LedNumber);
+	// 			}
+
+	// 			this.notification.set(data);
+	// 			this.emit("notification", data);
+	// 		});
+	// 		this._registered = true;
+	// 	}
+	// }
+
+	// async unregister() {
+	// 	if (this.connected && this._registered) {
+	// 		vigemclient.vigem_target_x360_unregister_notification(this.target);
+	// 		this._registered = false;
+	// 		return await new Promise((res, rej) => {
+	// 			setTimeout(() => {
+	// 				res();
+	// 			}, 1000);
+	// 		});
+	// 	}
+	// }
+
+	// disconnect(): Error | undefined {
+	// 	// this.unregister();
+	// 	return super.disconnect();
+	// }
+
+	get userIndex(): Four {
+		this.checkConnection();
+		return vigemclient.vigem_target_x360_get_user_index(this.client.handle, this.target);
 	}
 
 	update() {

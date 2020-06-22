@@ -2,16 +2,17 @@
 
 std::unordered_map<PVIGEM_TARGET, Napi::ThreadSafeFunction> ds4_notification_functions;
 
-void ds4_notification_callback(PVIGEM_CLIENT Client, PVIGEM_TARGET Target, UCHAR LargeMotor, UCHAR SmallMotor, DS4_LIGHTBAR_COLOR LightbarColor) {
+void ds4_notification_callback(PVIGEM_CLIENT Client, PVIGEM_TARGET Target, UCHAR LargeMotor, UCHAR SmallMotor, DS4_LIGHTBAR_COLOR LightbarColor)
+{
 	// store data on the heap so we can pass it to the callback function
-	NotificationData_ds4* data = new NotificationData_ds4{ LargeMotor, SmallMotor, LightbarColor };
+	NotificationData_ds4 *data = new NotificationData_ds4{LargeMotor, SmallMotor, LightbarColor};
 
-	ds4_notification_functions[Target].NonBlockingCall(data, [](Napi::Env env, Napi::Function fn, NotificationData_ds4* data) {
+	ds4_notification_functions[Target].NonBlockingCall(data, [](Napi::Env env, Napi::Function fn, NotificationData_ds4 *data) {
 		// create JS object version of the notification data
 		Napi::Object evt = Napi::Object::New(env);
 		evt.Set("LargeMotor", Napi::Number::New(env, (double)data->LargeMotor));
 		evt.Set("SmallMotor", Napi::Number::New(env, (double)data->SmallMotor));
-		
+
 		Napi::Object lightbarColor = Napi::Object::New(env);
 		lightbarColor.Set("Red", Napi::Number::New(env, (double)data->LightbarColor.Red));
 		lightbarColor.Set("Green", Napi::Number::New(env, (double)data->LightbarColor.Green));
@@ -20,13 +21,14 @@ void ds4_notification_callback(PVIGEM_CLIENT Client, PVIGEM_TARGET Target, UCHAR
 		evt.Set("LightbarColor", lightbarColor);
 
 		// pass data to JS callback
-		fn.Call( {evt} );
+		fn.Call({evt});
 
 		delete data; // clean up
 	});
 }
 
-ViGemTargetWrap wrap_vigem_target_ds4_alloc(const Napi::CallbackInfo& info) {
+ViGemTargetWrap wrap_vigem_target_ds4_alloc(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	return ViGemTargetWrap::New(env, vigem_target_ds4_alloc(), [](Napi::Env env, PVIGEM_TARGET target) {
@@ -36,7 +38,8 @@ ViGemTargetWrap wrap_vigem_target_ds4_alloc(const Napi::CallbackInfo& info) {
 	});
 }
 
-Napi::Number wrap_vigem_target_ds4_register_notification(const Napi::CallbackInfo& info) {
+Napi::Number wrap_vigem_target_ds4_register_notification(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	ViGemClientWrap client_wrap = info[0].As<ViGemClientWrap>();
@@ -53,16 +56,17 @@ Napi::Number wrap_vigem_target_ds4_register_notification(const Napi::CallbackInf
 	return Napi::Number::New(env, (double)err);
 }
 
-void wrap_vigem_target_ds4_unregister_notification(const Napi::CallbackInfo& info) {
+void wrap_vigem_target_ds4_unregister_notification(const Napi::CallbackInfo &info)
+{
 	ViGemTargetWrap target_wrap = info[0].As<ViGemTargetWrap>();
 	PVIGEM_TARGET target = target_wrap.Data();
 
 	ds4_notification_functions.erase(target);
-
 	vigem_target_ds4_unregister_notification(target);
 }
 
-Napi::Number wrap_vigem_target_ds4_update(const Napi::CallbackInfo& info) {
+Napi::Number wrap_vigem_target_ds4_update(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	ViGemClientWrap client_wrap = info[0].As<ViGemClientWrap>();

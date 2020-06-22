@@ -16,8 +16,8 @@ import {
 	DPAD_VALUE,
 	DS4_DPAD_VALUES,
 } from "./Common";
-import { Report } from "../Types/Report";
-import { Nibble } from "../Types/Numbers";
+import { Report } from "../Common/Report";
+import { Nibble } from "../Common/Numbers";
 
 export class DS4ControllerReport implements Report {
 	wButtons: number = 0;

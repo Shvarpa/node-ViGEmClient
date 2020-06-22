@@ -2,9 +2,9 @@
 	"name": "vigemclient",
 	"version": "1.1.0",
 	"description": "Native bindings to the ViGem virtual gamepad driver",
-	"module": ".src/index.ts",
-	"main": "lib/index",
-	"typings": "./lib/index.d.ts",
+	"module": "./src/index.ts",
+	"main": "./lib/index.js",
+	"types":"./index.d.ts",
 	"scripts": {
 		"build": "tsc",
 		"install": "node-gyp rebuild",
@@ -13,7 +13,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/jangxx/node-ViGEmClient.git"
+		"url": "git+https://github.com/shvarpa/node-ViGEmClient.git"
 	},
 	"keywords": [
 		"vigem",
@@ -23,15 +23,15 @@
 		"driver",
 		"bindings"
 	],
-	"author": "jangxx <jangxx@protonmail.com>",
+	"author": "Pavel Shvarchov <shvarpa@gmail.com>",
 	"license": "MIT",
 	"gypfile": true,
 	"bugs": {
-		"url": "https://github.com/jangxx/node-ViGEmClient/issues"
+		"url": "https://github.com/shvarpa/node-ViGEmClient/issues"
 	},
-	"homepage": "https://github.com/jangxx/node-ViGEmClient#readme",
+	"homepage": "https://github.com/shvarpa/node-ViGEmClient#readme",
 	"dependencies": {
-		"node-addon-api": "^1.7.1"
+		"node-addon-api": "^3.0.0"
 	},
 	"os": [
 		"win32"

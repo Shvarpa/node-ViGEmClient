@@ -2,11 +2,12 @@
 
 std::unordered_map<PVIGEM_TARGET, Napi::ThreadSafeFunction> x360_notification_functions;
 
-void x360_notification_callback(PVIGEM_CLIENT Client, PVIGEM_TARGET Target, UCHAR LargeMotor, UCHAR SmallMotor, UCHAR LedNumber) {
+void x360_notification_callback(PVIGEM_CLIENT Client, PVIGEM_TARGET Target, UCHAR LargeMotor, UCHAR SmallMotor, UCHAR LedNumber)
+{
 	// store data on the heap so we can pass it to the callback function
-	NotificationData_x360* data = new NotificationData_x360{ LargeMotor, SmallMotor, LedNumber };
+	NotificationData_x360 *data = new NotificationData_x360{LargeMotor, SmallMotor, LedNumber};
 
-	x360_notification_functions[Target].NonBlockingCall(data, [](Napi::Env env, Napi::Function fn, NotificationData_x360* data) {
+	x360_notification_functions[Target].NonBlockingCall(data, [](Napi::Env env, Napi::Function fn, NotificationData_x360 *data) {
 		// create JS object version of the notification data
 		Napi::Object evt = Napi::Object::New(env);
 		evt.Set("LargeMotor", Napi::Number::New(env, (double)data->LargeMotor));
@@ -14,13 +15,14 @@ void x360_notification_callback(PVIGEM_CLIENT Client, PVIGEM_TARGET Target, UCHA
 		evt.Set("LedNumber", Napi::Number::New(env, (double)data->LedNumber));
 
 		// pass data to JS callback
-		fn.Call( {evt} );
+		fn.Call({evt});
 
 		delete data; // clean up
 	});
 }
 
-ViGemTargetWrap wrap_vigem_target_x360_alloc(const Napi::CallbackInfo& info) {
+ViGemTargetWrap wrap_vigem_target_x360_alloc(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	return ViGemTargetWrap::New(env, vigem_target_x360_alloc(), [](Napi::Env env, PVIGEM_TARGET target) {
@@ -30,7 +32,8 @@ ViGemTargetWrap wrap_vigem_target_x360_alloc(const Napi::CallbackInfo& info) {
 	});
 }
 
-Napi::Number wrap_vigem_target_x360_register_notification(const Napi::CallbackInfo& info) {
+Napi::Number wrap_vigem_target_x360_register_notification(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	ViGemClientWrap client_wrap = info[0].As<ViGemClientWrap>();
@@ -47,16 +50,16 @@ Napi::Number wrap_vigem_target_x360_register_notification(const Napi::CallbackIn
 	return Napi::Number::New(env, (double)err);
 }
 
-void wrap_vigem_target_x360_unregister_notification(const Napi::CallbackInfo& info) {
+void wrap_vigem_target_x360_unregister_notification(const Napi::CallbackInfo &info)
+{
 	ViGemTargetWrap target_wrap = info[0].As<ViGemTargetWrap>();
 	PVIGEM_TARGET target = target_wrap.Data();
-
 	x360_notification_functions.erase(target);
-
 	vigem_target_x360_unregister_notification(target);
 }
 
-Napi::Number wrap_vigem_target_x360_update(const Napi::CallbackInfo& info) {
+Napi::Number wrap_vigem_target_x360_update(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	ViGemClientWrap client_wrap = info[0].As<ViGemClientWrap>();
@@ -82,7 +85,8 @@ Napi::Number wrap_vigem_target_x360_update(const Napi::CallbackInfo& info) {
 	return Napi::Number::New(env, (double)err);
 }
 
-Napi::Number wrap_vigem_target_x360_get_user_index(const Napi::CallbackInfo& info) {
+Napi::Number wrap_vigem_target_x360_get_user_index(const Napi::CallbackInfo &info)
+{
 	Napi::Env env = info.Env();
 
 	ViGemClientWrap client_wrap = info[0].As<ViGemClientWrap>();
@@ -95,12 +99,17 @@ Napi::Number wrap_vigem_target_x360_get_user_index(const Napi::CallbackInfo& inf
 
 	VIGEM_ERROR err = vigem_target_x360_get_user_index(client, target, &index);
 
-	if (err == VIGEM_ERROR_NONE) {
+	if (err == VIGEM_ERROR_NONE)
+	{
 		return Napi::Number::New(env, (double)index);
-	} else if (err == VIGEM_ERROR_XUSB_USERINDEX_OUT_OF_RANGE) {
+	}
+	else if (err == VIGEM_ERROR_XUSB_USERINDEX_OUT_OF_RANGE)
+	{
 		Napi::Error::New(env, "XUSB_USERINDEX_OUT_OF_RANGE").ThrowAsJavaScriptException();
 		return Napi::Number::Number();
-	} else {
+	}
+	else
+	{
 		Napi::Error::New(env, "Unexpected Error").ThrowAsJavaScriptException();
 		return Napi::Number::Number();
 	}
