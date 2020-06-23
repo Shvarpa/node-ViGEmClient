@@ -122,7 +122,7 @@ This property is the same for both controller types.
 
 All of these buttons are instances of `InputAxis` (documented below).
 
-_get_ **dpad** OR **DPAD**
+_get_ **dpad** | **DPAD**  
 get an object referencing a controller's dpad,
 is instance of `InputDpad` (documented below).
 
@@ -191,12 +191,11 @@ This class represents a controller's dpad.
 You can not instantiate this class directly, instead you get objects of this class from the `.dpad` or `.DPAD` property from a `ViGEmTarget` instance.
 
 _get_ **value**  
-Get the currently set value of the dpad as a 4 bit number, where each bit represend if a direction is pressed.
-
+Get the currently set value of the dpad as a 4 bit number, where each bit represend if a direction is pressed.  
 the **order** of the bits is `[right,left,down,up]`
 
-for example:
-- if the value is `0b 0110`, it means `left` and `down` are pressed, so the direction of the dpad is south-west
+- for example:  
+if the value is `0b 0110`, it means `left` and `down` are pressed, so the direction of the dpad is south-west
 
 **setValue**(value)  
 set the value of dpad as either a tuple of 2 numbers [x, y], each between -1 and 1, representing directionality of the dpad.

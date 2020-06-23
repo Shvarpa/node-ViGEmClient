@@ -5,6 +5,7 @@ export { DS4Controller } from "./src/ts/DS4Controller";
 export { DS4ControllerReport } from "./src/ts/DS4ControllerReport";
 export { InputAxis } from "./src/ts/InputAxis";
 export { InputButton } from "./src/ts/InputButton";
+export { InputDpad } from "./src/ts/InputDpad";
 export { ConnectOpts, Controller, ControllerType, ProductID, VendorID } from "./src/Common/Controller";
 export { DS4Lightbar, DS4Notification } from "./src/Common/DS4Notification";
 export { Byte, Four, Nibble, Nine } from "./src/Common/Numbers";
