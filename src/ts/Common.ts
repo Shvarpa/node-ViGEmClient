@@ -1,6 +1,6 @@
 import { Nibble, Nine } from "../Common/Numbers";
 
-export type X360Dpad = "DPAD" | "DPAD_UP" | "DPAD_DOWN" | "DPAD_LEFT" | "DPAD_RIGHT";
+export type X360Dpad = "DPAD_UP" | "DPAD_DOWN" | "DPAD_LEFT" | "DPAD_RIGHT";
 export type X360Buttons = X360Dpad | "START" | "BACK" | "LEFT_THUMB" | "RIGHT_THUMB" | "LEFT_SHOULDER" | "RIGHT_SHOULDER" | "GUIDE" | "A" | "B" | "X" | "Y";
 export type X360Axis = "bLeftTrigger" | "bRightTrigger" | "sThumbLX" | "sThumbLY" | "sThumbRX" | "sThumbRY";
 
@@ -25,7 +25,7 @@ export const XUSB_BUTTON = Object.freeze({
 export type DS4Buttons = "THUMB_RIGHT" | "THUMB_LEFT" | "OPTIONS" | "SHARE" | "TRIGGER_RIGHT" | "TRIGGER_LEFT" | "SHOULDER_RIGHT" | "SHOULDER_LEFT" | "TRIANGLE" | "CIRCLE" | "CROSS" | "SQUARE";
 export type DS4Special = "SPECIAL_PS" | "SPECIAL_TOUCHPAD";
 export type DS4Axis = "wButtons" | "bThumbLX" | "bThumbLY" | "bThumbRX" | "bThumbRY" | "bTriggerL" | "bTriggerR" | "bSpecial";
-export type DS4Dpad = "DPAD" | "DPAD_NONE" | "DPAD_NORTHWEST" | "DPAD_WEST" | "DPAD_SOUTHWEST" | "DPAD_SOUTH" | "DPAD_SOUTHEAST" | "DPAD_EAST" | "DPAD_NORTHEAST" | "DPAD_NORTH";
+export type DS4Dpad = "DPAD_NONE" | "DPAD_NORTHWEST" | "DPAD_WEST" | "DPAD_SOUTHWEST" | "DPAD_SOUTH" | "DPAD_SOUTHEAST" | "DPAD_EAST" | "DPAD_NORTHEAST" | "DPAD_NORTH";
 
 export const isX360Dpad = (name: string): name is X360Dpad => name.startsWith("DPAD");
 export const isDS4Dpad = (name: string): name is DS4Dpad => name.startsWith("DPAD");

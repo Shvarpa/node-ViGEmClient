@@ -34,7 +34,7 @@ if (!client.connect()) {
 		controller.axis.RX.setValue(-Math.sin(t));
 		controller.axis.RY.setValue(Math.cos(t));
 
-		controller.button.DPAD.setValue([Math.sin(t), Math.cos(t)]);
+		controller.DPAD.setValue([Math.sin(t), Math.cos(t)]);
 		controller.button[buttons[btn]].setValue(!controller.button[buttons[btn]].value); // invert button value
 
 		controller.update(); // update manually for better performance

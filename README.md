@@ -1,7 +1,7 @@
 # node-ViGEmClient
 Native Node.js bindings for the ViGEm virtual gamepad driver.
 
-Current SDK version: **1.16.28.0**
+Current SDK version: [commit 4657364](https://github.com/ViGEm/ViGEmClient/commit/465736429b8fe2b9d236b01ef0404f9bceb31106) (a few commits after v1.16.107)
 
 # Installation
 
@@ -30,11 +30,12 @@ let controller = client.createX360Controller();
 controller.connect(); // plug in the virtual controller
 
 // change some axes and buttons
-controller.axis.leftX.setValue(0.5); // move left stick 50% to the left
-controller.axis.leftY.setValue(-0.5); // move left stick 50% down
-controller.axis.leftTrigger.setValue(1); // press in left trigger all the way
+controller.axis.LX.setValue(0.5); // move left stick 50% to the left
+controller.axis.LY.setValue(-0.5); // move left stick 50% down
+controller.axis.LT.setValue(1); // press in left trigger all the way
 
-cnotroller.button.Y.setValue(true); // press Y button
+controller.button.Y.setValue(true); // press Y button
+controller.dpad.setValue([1,-1]); // [x, y] => put dpad right and bottom. x: [1, right], [0, center], [-1, left]; y: [1, top], [0, center], [-1, bottom];
 ```
 
 More examples can be found in the _examples/_ directory.
@@ -72,11 +73,6 @@ Get the internal index of the device. Can only be accessed after `connect()` has
 
 _get_ **type**  
 Get a string describing the type of the device. Either "Xbox360Wired", "XboxOneWired" or "DualShock4Wired". Can only be accessed after `connect()` has been called.
-
-_get_ **updateMode**  
-_set_ **updateMode**  
-Get or set the updateMode. Per default the mode is set to "auto", which leads to every change of each button or axis to be sent to the driver instantly.
-Set to "manual" if you often update multiple values at once. but don't forget that you have to call `update()` yourself when in this mode.
 
 _get_ **button**  
 Get an object containing all the buttons of the controller.
@@ -117,16 +113,18 @@ _get_ **axis**
 Get an object containing all the axes of the controller.
 This property is the same for both controller types.
 
-- `leftX`
-- `leftY`
-- `rightX`
-- `rightY`
-- `leftTrigger`
-- `rightTrigger`
-- `dpadHorz`
-- `dpadVert`
+- `LX` - Left Analog Horizontal,     `values` : [-1 , 1]
+- `LY` - Left Analog Vertical,       `values` : [-1 , 1]
+- `RX` - Right Analog Horizontal,    `values` : [-1 , 1]
+- `RY` - Right Analog Vertical,      `values` : [-1 , 1]
+- `LT` - Left Trigger,               `values` : [0 , 1]
+- `RT` - Right Trigger,              `values` : [0 , 1]
 
 All of these buttons are instances of `InputAxis` (documented below).
+
+_get_ **dpad** OR **DPAD**
+get an object referencing a controller's dpad,
+is instance of `InputDpad` (documented below).
 
 _get_ **userIndex** (`X360Controller` only)  
 Get the user index of the virtual Xbox controller.
@@ -187,6 +185,25 @@ Higher values will be clamped to this value.
 **setValue**(value)  
 Set the value of this axis (between `minValue` and `maxValue`).
 The POV switch is also represented as an axis and it also takes continuous values, but since POV switches are digital, the values are cut-off at 0.5, so `>`0.5 means pressed and `<=` 0.5 means not pressed.
+
+## InputDpad
+This class represents a controller's dpad.
+You can not instantiate this class directly, instead you get objects of this class from the `.dpad` or `.DPAD` property from a `ViGEmTarget` instance.
+
+_get_ **value**  
+Get the currently set value of the dpad as a 4 bit number, where each bit represend if a direction is pressed.
+
+the **order** of the bits is `[right,left,down,up]`
+
+for example:
+- if the value is `0b 0110`, it means `left` and `down` are pressed, so the direction of the dpad is south-west
+
+**setValue**(value)  
+set the value of dpad as either a tuple of 2 numbers [x, y], each between -1 and 1, representing directionality of the dpad.
+- __x__: -1=`left`, 0=`center`, 1=`right`
+- __y__: -1=`bottom`, 0=`center`, 1=`top`
+
+or as a 4 bit number as describe in **value**
 
 # Events
 

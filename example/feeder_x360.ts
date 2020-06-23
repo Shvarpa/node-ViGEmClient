@@ -37,7 +37,7 @@ if (!client.connect()) {
 		controller.axis.RX.setValue(-Math.sin(t));
 		controller.axis.RY.setValue(Math.cos(t));
 
-		controller.button.DPAD.setValue([-Math.sin(t), Math.cos(t)]);
+		controller.dpad.setValue([-Math.sin(t), Math.cos(t)]);
 
 		controller.axis.LT.setValue(Math.sin(t));
 		

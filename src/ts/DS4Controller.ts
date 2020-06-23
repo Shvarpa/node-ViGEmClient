@@ -6,15 +6,19 @@ import { InputAxis } from "./InputAxis";
 import { DS4ControllerReport } from "./DS4ControllerReport";
 import { DS4Notification, DS4Lightbar } from "../Common/DS4Notification";
 import { Controller, ConnectOpts } from "../Common/Controller";
+import { InputDpad } from "./InputDpad";
 
 export class DS4Controller extends ViGEmTarget implements Controller {
+	constructor(client) {
+		super(client);
+	}
+
 	report = new DS4ControllerReport();
 	notification = new DS4Notification();
 	button = Object.freeze(
 		Object.fromEntries(
 			Object.keys(DS4_BUTTONS)
 				.concat(Object.keys(DS4_SPECIAL_BUTTONS))
-				.concat("DPAD")
 				.map((button) => [button, new InputButton(this, button)])
 		)
 	);
@@ -26,8 +30,10 @@ export class DS4Controller extends ViGEmTarget implements Controller {
 		LT: new InputAxis(this, "bTriggerL", { minIn: 0, maxIn: 1, minOut: 0, maxOut: 255 }),
 		RT: new InputAxis(this, "bTriggerR", { minIn: 0, maxIn: 1, minOut: 0, maxOut: 255 }),
 	});
-	constructor(client) {
-		super(client);
+	dpad = new InputDpad(this);
+
+	get DPAD() {
+		return this.dpad;
 	}
 
 	protected alloc() {

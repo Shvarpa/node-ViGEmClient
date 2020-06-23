@@ -11,10 +11,8 @@ export class X360ControllerReport implements Report {
 	sThumbRX: number = 0;
 	sThumbRY: number = 0;
 
-	updateButton(name: X360Buttons, value: boolean | Nibble | Axis) {
-		if (name == "DPAD") {
-			if (typeof value != "boolean") this.setDpad(value);
-		} else if (typeof value == "boolean") {
+	updateButton(name: X360Buttons, value: boolean) {
+		if (typeof value == "boolean") {
 			this.wButtons = set(this.wButtons, XUSB_BUTTON[name], value);
 		}
 	}
@@ -23,23 +21,26 @@ export class X360ControllerReport implements Report {
 		this.wButtons = value;
 	}
 
-	setDpad(value: Nibble | Axis) {
+	updateAxis(name: X360Axis, value: number) {
+		this[name] = value;
+	}
+
+	updateDpad(value: Nibble | Axis) {
 		let state = typeof value == "number" ? value : axisToDpad(value);
 		this.wButtons &= ~0xf; // reset dpad
 		this.wButtons |= state;
 	}
 
-	updateAxis(name: X360Axis, value: number) {
-		this[name] = value;
-	}
-
 	getButtonValue(name: X360Buttons) {
-		if (name == "DPAD") return DPAD_VALUE[(this.wButtons & 0xf) as Nibble];
-		else return ispressed(this.wButtons, XUSB_BUTTON[name]);
+		return ispressed(this.wButtons, XUSB_BUTTON[name]);
 	}
 
 	getAxisValue(name: X360Axis) {
 		return this[name];
+	}
+
+	getDpadValue(): Nibble {
+		return (this.wButtons & 0xf) as Nibble;
 	}
 
 	freeze() {

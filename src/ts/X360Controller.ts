@@ -7,8 +7,13 @@ import { X360ControllerReport } from "./X360ControllerReport";
 import { X360Notification } from "../Common/X360Notification";
 import { Controller, ConnectOpts } from "../Common/Controller";
 import { Four } from "../Common/Numbers";
+import { InputDpad } from "./InputDpad";
 
 export class X360Controller extends ViGEmTarget implements Controller {
+	constructor(client) {
+		super(client);
+	}
+
 	report = new X360ControllerReport();
 	notification = new X360Notification();
 	axis = Object.freeze({
@@ -19,15 +24,11 @@ export class X360Controller extends ViGEmTarget implements Controller {
 		LT: new InputAxis(this, "bLeftTrigger", { minIn: 0, maxIn: 1, minOut: 0, maxOut: 255 }),
 		RT: new InputAxis(this, "bRightTrigger", { minIn: 0, maxIn: 1, minOut: 0, maxOut: 255 }),
 	});
-	button = Object.freeze(
-		Object.fromEntries(
-			Object.keys(XUSB_BUTTON)
-				.concat("DPAD")
-				.map((button) => [button, new InputButton(this, button)])
-		)
-	);
-	constructor(client) {
-		super(client);
+	button = Object.freeze(Object.fromEntries(Object.keys(XUSB_BUTTON).map((button) => [button, new InputButton(this, button)])));
+	dpad = new InputDpad(this);
+
+	get DPAD() {
+		return this.dpad;
 	}
 
 	protected alloc() {
