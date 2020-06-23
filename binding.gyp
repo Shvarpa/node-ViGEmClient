@@ -9,7 +9,7 @@
 				"native/src/vigemclient.cpp"
 			],
 			"include_dirs": [
-				"<(module_root_dir)/include",
+				"<(module_root_dir)/native/include",
 				"<!@(node -p \"require('node-addon-api').include\")"
 			],
 			"dependencies": [
