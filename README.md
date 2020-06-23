@@ -147,7 +147,6 @@ Returns `null` on success and an `Error` on error.
 
 **update**()  
 Submit updated button and axis values to the driver.
-If `updateMode` is set to "auto" (default), this method will be called automatically if a value is changed.
 
 ## InputButton
 
