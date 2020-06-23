@@ -1,5 +1,3 @@
-import vigemclient from "./src/ts/Client";
-
 export as namespace ViGEm;
 
 export { Axis, DS4Axis, DS4Buttons, DS4Dpad, DS4Special, VIGEMErrorCodes, VIGEMErrors, X360Axis, X360Buttons, X360Dpad } from "./src/ts/Common";
@@ -16,4 +14,3 @@ export { ViGEmClient } from "./src/ts/ViGEmClient";
 export { ViGEmTarget } from "./src/ts/ViGEmTarget";
 export { X360Controller } from "./src/ts/X360Controller";
 export { X360ControllerReport } from "./src/ts/X360ControllerReport";
-export default ViGEmClient;

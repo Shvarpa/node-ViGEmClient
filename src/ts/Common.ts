@@ -152,7 +152,12 @@ export const VIGEM_ERRORS = Object.freeze({
 	0xe0000014: "VIGEM_ERROR_XUSB_USERINDEX_OUT_OF_RANGE",
 });
 
-export const handlePossibleError = (error: VIGEMErrorCodes) => (VIGEM_ERRORS[error] != "VIGEM_ERROR_NONE" ? new Error(VIGEM_ERRORS[error]) : undefined);
+export const negate32Bit = (number: number) => Uint32Array.from([number])[0];
+
+export const handlePossibleError = (error: number) => {
+	let code = negate32Bit(error) as VIGEMErrorCodes;
+	return VIGEM_ERRORS[code] != "VIGEM_ERROR_NONE" ? new Error(VIGEM_ERRORS[code]) : undefined;
+};
 
 export const press = (buttons: number, location: number): number => (buttons |= location);
 export const unpress = (buttons: number, location: number): number => (buttons &= ~location);

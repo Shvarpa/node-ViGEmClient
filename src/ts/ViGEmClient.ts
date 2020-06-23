@@ -5,7 +5,12 @@ import { DS4Controller } from "./DS4Controller";
 
 export class ViGEmClient {
 	private _handle;
-	private connected = false;
+	private _connected = false;
+
+	get connected() {
+		return this._connected;
+	}
+
 	get handle() {
 		return this._handle;
 	}
@@ -13,7 +18,7 @@ export class ViGEmClient {
 	connect() {
 		this._handle = vigemclient.vigem_alloc();
 		let error = handlePossibleError(vigemclient.vigem_connect(this._handle));
-		this.connected = !error;
+		this._connected = !error;
 		return error;
 	}
 
