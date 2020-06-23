@@ -36,52 +36,36 @@ export class X360Controller extends ViGEmTarget implements Controller {
 
 	connect(opts: ConnectOpts = {}) {
 		let err = super.connect(opts);
+		if (!err) {
+			vigemclient.vigem_target_x360_register_notification(this.client.handle, this.target, (data) => {
+				if (data.LargeMotor != this.notification.LargeMotor) {
+					this.emit("large motor", data.LargeMotor);
+				}
+
+				if (data.SmallMotor != this.notification.SmallMotor) {
+					this.emit("small motor", data.SmallMotor);
+				}
+
+				if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
+					this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
+				}
+
+				if (data.LedNumber != this.notification.LedNumber) {
+					this.emit("led change", data.LedNumber);
+				}
+
+				this.notification.set(data);
+				this.emit("notification", data);
+			});
+		}
 		return err;
 	}
 
-	// private _registered = false;
-	// register() {
-	// 	if (this.connected && !this._registered) {
-	// 		vigemclient.vigem_target_x360_register_notification(this.client.handle, this.target, (data) => {
-	// 			if (data.LargeMotor != this.notification.LargeMotor) {
-	// 				this.emit("large motor", data.LargeMotor);
-	// 			}
-
-	// 			if (data.SmallMotor != this.notification.SmallMotor) {
-	// 				this.emit("small motor", data.SmallMotor);
-	// 			}
-
-	// 			if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
-	// 				this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
-	// 			}
-
-	// 			if (data.LedNumber != this.notification.LedNumber) {
-	// 				this.emit("led change", data.LedNumber);
-	// 			}
-
-	// 			this.notification.set(data);
-	// 			this.emit("notification", data);
-	// 		});
-	// 		this._registered = true;
-	// 	}
-	// }
-
-	// async unregister() {
-	// 	if (this.connected && this._registered) {
-	// 		vigemclient.vigem_target_x360_unregister_notification(this.target);
-	// 		this._registered = false;
-	// 		return await new Promise((res, rej) => {
-	// 			setTimeout(() => {
-	// 				res();
-	// 			}, 1000);
-	// 		});
-	// 	}
-	// }
-
-	// disconnect(): Error | undefined {
-	// 	// this.unregister();
-	// 	return super.disconnect();
-	// }
+	disconnect() {
+		this.checkConnection();
+		vigemclient.vigem_target_x360_unregister_notification(this.target);
+		return super.disconnect();
+	}
 
 	get userIndex(): Four {
 		this.checkConnection();
