@@ -1,5 +1,5 @@
 import { Nibble } from "./Numbers";
-import { Axis } from "../ts/Common";
+import { Axis } from "../ts/Utils";
 
 export interface Report {
 	setButtons(value: number);

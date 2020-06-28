@@ -208,32 +208,7 @@ or as a 4 bit number as describe in **value**
 Both `X360Controller` and `DS4Controller` register a "notification callback" with the bus driver, which is called every time a controller is supposed to vibrate or if the LEDs on the controller change.
 For the sake of convenience, the data contained in the notification is split up and emitted as regular node events.
 
-Event "**large motor**"  
-Emitted by: `X360Controller`, `DS4Controller`  
-Emitted every time the intensity of the large vibration motor changes.
-The emitted values range from 0 to 255.
-
-Event "**small motor**"  
-Emitted by: `X360Controller`, `DS4Controller`  
-Emitted every time the intensity of the small vibration motor changes.
-The emitted values range from 0 to 255.
-
-Event "**vibration**"  
-Emitted by: `X360Controller`, `DS4Controller`  
-Emitted every time the intensity of the large or the small vibration motor changes.
-The emitted values are objects of the form `{ large, small }`, containing the values of both motors.
-
 Event "**notification**"  
 Emitted by: `X360Controller`, `DS4Controller`  
 Emitted every time the notification callback is called.
 The emmitted values are objects of the form `{ LargeMotor, SmallMotor, LedNumber }` for `X360Controller` and `{ LargeMotor, SmallMotor, LightbarColor: { Red, Green, Blue } }` for `DS4Controller`.
-
-Event "**led change**"  
-Emitted by: `X360Controller`  
-Emitted every time the LEDs around the guide button change.
-The emitted values range from 0 to 3.
-
-Event "**color change**"  
-Emitted by: `DS4Controller`  
-Emitted every time the color of the lightbar changes.
-The emitted values are objects of the form `{ Red, Green, Blue }`, with each components value ranging from 0 to 255.

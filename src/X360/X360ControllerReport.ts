@@ -1,4 +1,4 @@
-import { XUSB_BUTTON, X360Buttons, X360Axis, set, ispressed, Axis, axisToDpad, DPAD_VALUE } from "./Common";
+import { XUSB_BUTTON, X360Buttons, X360Axis, set, ispressed, Axis, axisToDpad, DPAD_VALUE } from "../ts/Utils";
 import { Report } from "../Common/Report";
 import { Nibble } from "../Common/Numbers";
 

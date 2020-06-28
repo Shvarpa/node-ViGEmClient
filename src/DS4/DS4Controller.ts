@@ -1,12 +1,12 @@
-import { vigemclient } from "./Client";
-import { ViGEmTarget } from "./ViGEmTarget";
-import { DS4_BUTTONS, DS4_SPECIAL_BUTTONS, VIGEM_ERRORS, handlePossibleError } from "./Common";
-import { InputButton } from "./InputButton";
-import { InputAxis } from "./InputAxis";
+import { vigemclient } from "../ts/Client";
+import { ViGEmTarget } from "../ts/ViGEmTarget";
+import { DS4_BUTTONS, DS4_SPECIAL_BUTTONS, VIGEM_ERRORS, handlePossibleError } from "../ts/Utils";
+import { InputButton } from "../Inputs/InputButton";
+import { InputAxis } from "../Inputs/InputAxis";
 import { DS4ControllerReport } from "./DS4ControllerReport";
-import { DS4Notification, DS4Lightbar } from "../Common/DS4Notification";
+import { DS4Notification, DS4Lightbar } from "./DS4Notification";
 import { Controller, ConnectOpts } from "../Common/Controller";
-import { InputDpad } from "./InputDpad";
+import { InputDpad } from "../Inputs/InputDpad";
 
 export class DS4Controller extends ViGEmTarget implements Controller {
 	constructor(client) {
@@ -44,24 +44,8 @@ export class DS4Controller extends ViGEmTarget implements Controller {
 		let err = super.connect(opts);
 		if (!err) {
 			vigemclient.vigem_target_ds4_register_notification(this.client.handle, this.target, (data) => {
-				if (data.LargeMotor != this.notification.LargeMotor) {
-					this.emit("large motor", data.LargeMotor);
-				}
-
-				if (data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("small motor", data.SmallMotor);
-				}
-
-				if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
-				}
-
-				if (!colorsEqual(data.LightbarColor, this.notification.LightbarColor)) {
-					this.emit("color change", data.LightbarColor);
-				}
-
 				this.notification.set(data);
-				this.emit("notification", data);
+				this.emit("notification", this.notification.freeze());
 			});
 		}
 		return err;

@@ -1,7 +1,7 @@
 import { vigemclient } from "./Client";
-import { VIGEM_ERRORS, handlePossibleError } from "./Common";
-import { X360Controller } from "./X360Controller";
-import { DS4Controller } from "./DS4Controller";
+import { VIGEM_ERRORS, handlePossibleError } from "./Utils";
+import { X360Controller } from "../X360/X360Controller";
+import { DS4Controller } from "../DS4/DS4Controller";
 
 export class ViGEmClient {
 	private _handle;

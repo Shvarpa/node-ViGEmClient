@@ -1,5 +1,5 @@
-import { Byte } from "./Numbers";
-import { Notification } from "./Notification";
+import { Byte } from "../Common/Numbers";
+import { Notification } from "../Common/Notification";
 export class X360Notification implements Notification {
 	LargeMotor?: Byte = undefined;
 	SmallMotor?: Byte = undefined;

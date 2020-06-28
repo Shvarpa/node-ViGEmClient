@@ -15,7 +15,7 @@ import {
 	REVERSE_DS4_DPAD_FIX,
 	DPAD_VALUE,
 	DS4_DPAD_VALUES,
-} from "./Common";
+} from "../ts/Utils";
 import { Report } from "../Common/Report";
 import { Nibble } from "../Common/Numbers";
 

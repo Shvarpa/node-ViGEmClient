@@ -1,6 +1,6 @@
 import { vigemclient } from "./Client";
 import { EventEmitter } from "events";
-import { VIGEM_ERRORS, handlePossibleError } from "./Common";
+import { VIGEM_ERRORS, handlePossibleError } from "./Utils";
 import { ViGEmClient } from "./ViGEmClient";
 import { ConnectOpts } from "../Common/Controller";
 

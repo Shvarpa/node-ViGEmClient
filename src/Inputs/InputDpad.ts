@@ -1,6 +1,6 @@
 import { Controller } from "../Common/Controller";
 import { Nibble } from "../Common/Numbers";
-import { Axis } from "./Common";
+import { Axis } from "../ts/Utils";
 
 export class InputDpad {
 	constructor(private _parent: Controller) {}

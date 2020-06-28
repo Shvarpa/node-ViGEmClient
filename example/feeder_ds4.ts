@@ -1,10 +1,15 @@
-const { ViGEmClient } = require("../lib/index");
-import { isDS4Dpad } from "../src/ts/Common";
+// const { ViGEmClient } = require("../lib/index");
+import { ViGEmClient } from "../src/index";
+import { isDS4Dpad } from "../src/ts/Utils";
 
 let client = new ViGEmClient();
 
 if (!client.connect()) {
 	let controller = client.createDS4Controller();
+
+	controller.on("notification", (data) => {
+		console.log("notification", data);
+	});
 
 	let err = controller.connect();
 
@@ -17,10 +22,6 @@ if (!client.connect()) {
 	console.log("Product ID:", controller.productID);
 	console.log("Index:", controller.index);
 	console.log("Type:", controller.type);
-
-	controller.on("notification", (data) => {
-		console.log("notification", data);
-	});
 
 	let t = 0;
 

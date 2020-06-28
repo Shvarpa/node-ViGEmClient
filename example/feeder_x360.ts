@@ -1,5 +1,5 @@
 import { ViGEmClient } from "../src/index";
-import { isX360Dpad } from "../src/ts/Common";
+import { isX360Dpad } from "../src/ts/Utils";
 
 let client = new ViGEmClient();
 

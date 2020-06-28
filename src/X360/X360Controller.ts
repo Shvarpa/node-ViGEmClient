@@ -1,13 +1,13 @@
-import { vigemclient } from "./Client";
-import { ViGEmTarget } from "./ViGEmTarget";
-import { XUSB_BUTTON, VIGEM_ERRORS, handlePossibleError } from "./Common";
-import { InputButton } from "./InputButton";
-import { InputAxis } from "./InputAxis";
+import { vigemclient } from "../ts/Client";
+import { ViGEmTarget } from "../ts/ViGEmTarget";
+import { XUSB_BUTTON, VIGEM_ERRORS, handlePossibleError } from "../ts/Utils";
+import { InputButton } from "../Inputs/InputButton";
+import { InputAxis } from "../Inputs/InputAxis";
 import { X360ControllerReport } from "./X360ControllerReport";
-import { X360Notification } from "../Common/X360Notification";
+import { X360Notification } from "./X360Notification";
 import { Controller, ConnectOpts } from "../Common/Controller";
 import { Four } from "../Common/Numbers";
-import { InputDpad } from "./InputDpad";
+import { InputDpad } from "../Inputs/InputDpad";
 
 export class X360Controller extends ViGEmTarget implements Controller {
 	constructor(client) {
@@ -39,24 +39,8 @@ export class X360Controller extends ViGEmTarget implements Controller {
 		let err = super.connect(opts);
 		if (!err) {
 			vigemclient.vigem_target_x360_register_notification(this.client.handle, this.target, (data) => {
-				if (data.LargeMotor != this.notification.LargeMotor) {
-					this.emit("large motor", data.LargeMotor);
-				}
-
-				if (data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("small motor", data.SmallMotor);
-				}
-
-				if (data.LargeMotor != this.notification.LargeMotor || data.SmallMotor != this.notification.SmallMotor) {
-					this.emit("vibration", { large: data.LargeMotor, small: data.SmallMotor });
-				}
-
-				if (data.LedNumber != this.notification.LedNumber) {
-					this.emit("led change", data.LedNumber);
-				}
-
 				this.notification.set(data);
-				this.emit("notification", data);
+				this.emit("notification", this.notification.freeze());
 			});
 		}
 		return err;
